@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smit Medical Center</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{--green:#198754;--teal:#20c997;--navy:#0d2d4a;}
+*{scroll-behavior:smooth;}
+body{background:#f4f8f6;font-family:'DM Sans',sans-serif;}
+
+/* NAVBAR */
+.navbar{background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.08);padding:8px 0;}
+.navbar-logo-img{width:48px;height:48px;object-fit:contain;}
+.navbar-brand span{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--navy);letter-spacing:.5px;}
+.navbar-brand small{font-size:.62rem;color:var(--teal);display:block;letter-spacing:1.5px;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:500;margin-top:-2px;}
+.nav-link{font-weight:500;color:#333 !important;position:relative;padding:6px 14px !important;transition:.3s;}
+.nav-link::after{content:'';position:absolute;bottom:0;left:14px;right:14px;height:2px;background:var(--green);transform:scaleX(0);transition:.3s;border-radius:2px;}
+.nav-link:hover::after{opacity:1;transform:scaleX(1);}
+.btn-book{background:linear-gradient(135deg,var(--green),var(--teal));color:#fff !important;border-radius:30px;padding:8px 22px !important;font-weight:600 !important;transition:.3s;border:none;cursor:pointer;}
+.btn-book:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(25,135,84,.35);}
+
+/* CAROUSEL */
+#heroCarousel .carousel-item{height:88vh;min-height:500px;}
+#heroCarousel .carousel-item img{width:100%;height:100%;object-fit:cover;}
+#heroCarousel .carousel-caption{background:rgba(0,0,0,.52);padding:28px 32px;border-radius:16px;backdrop-filter:blur(4px);max-width:600px;margin:0 auto;}
+#heroCarousel .carousel-caption h2{font-family:'Playfair Display',serif;font-size:2.2rem;}
+
+/* INFO CARDS */
+.info-card{border:none;border-radius:16px;transition:.5s;box-shadow:0 6px 24px rgba(25,135,84,.18);background:#fff;}
+.info-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(25,135,84,.25);}
+
+/* SECTION TITLE */
+.section-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy);}
+
+/* HOSPITAL CARDS */
+.hospital-card{border-radius:20px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.12);transition:.5s;background:#fff;border:none;}
+.hospital-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,.18);}
+.hospital-card img{width:100%;height:260px;object-fit:cover;}
+.hospital-badge{position:absolute;top:16px;left:16px;background:linear-gradient(135deg,var(--green),var(--teal));color:#fff;font-size:.75rem;font-weight:600;padding:5px 14px;border-radius:20px;letter-spacing:.5px;}
+.hospital-info-row{display:flex;align-items:center;gap:8px;font-size:.88rem;color:#555;margin-bottom:6px;}
+.hospital-info-row i{color:var(--green);width:14px;}
+
+/* DOCTORS */
+.doctor-card{border:none;overflow:hidden;transition:.7s;background:#eaffb2;box-shadow:5px 5px 2px rgb(92,229,0);border-radius:10px 111px;}
+.doctor-card:hover{transform:translateY(-36px);box-shadow:10px 11px 11px rgba(0,0,126,.87);background:aqua;}
+.doctor-img{position:relative;}
+.doctor-img img{width:100%;height:320px;object-fit:cover;}
+.doctor-overlay{position:absolute;inset:0;background:rgba(0,0,0,.8);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;transition:.4s;padding:20px;}
+.doctor-card:hover .doctor-overlay{opacity:1;}
+
+/* CTA */
+.cta{background:linear-gradient(135deg,var(--green),var(--teal));}
+
+/* FOOTER */
+.footer-link{color:#e9f5ee;text-decoration:none;transition:.3s;}
+.footer-link:hover{color:#fff;padding-left:6px;}
+.social-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;border-radius:50%;text-decoration:none;transition:.4s;}
+.social-btn:hover{background:var(--teal);transform:translateY(-4px);}
+
+/* BOOK MODAL */
+.book-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.book-modal-overlay.active{display:flex;}
+.book-modal{background:#fff;border-radius:24px;padding:36px 32px;max-width:480px;width:90%;box-shadow:0 30px 80px rgba(0,0,0,.25);animation:popIn .3s ease;position:relative;}
+@keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.book-modal h4{font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:6px;}
+.book-modal .subtitle{color:#888;font-size:.9rem;margin-bottom:24px;}
+.hosp-option{border:1.5px solid #e0e0e0;border-radius:16px;padding:18px 20px;margin-bottom:14px;cursor:pointer;transition:.3s;text-decoration:none;display:block;color:inherit;}
+.hosp-option:hover{border-color:var(--green);background:#f0fff6;transform:translateX(4px);color:inherit;}
+.hosp-option .hosp-name{font-weight:700;font-size:1rem;color:var(--navy);}
+.hosp-option .hosp-num{color:var(--green);font-size:.88rem;font-weight:600;margin-top:4px;}
+.hosp-option .hosp-web{color:#888;font-size:.8rem;}
+.hosp-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--green),var(--teal));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;flex-shrink:0;}
+.close-modal{position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.6rem;color:#aaa;cursor:pointer;transition:.2s;line-height:1;}
+.close-modal:hover{color:#333;}
+
+/* FLOATING */
+#miniCard{position:fixed;bottom:20px;right:20px;width:230px;background:linear-gradient(135deg,#0d6efd,#20c997);border-radius:14px;padding:12px;color:#fff;cursor:grab;z-index:9999;box-shadow:0 15px 40px rgba(0,0,0,.35);opacity:0;animation:entry 1.8s ease forwards;animation-delay:2.5s;}
+@keyframes entry{from{transform:translateY(60px) scale(.8);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes moveText{from{transform:translateX(-8px)}to{transform:translateX(8px)}}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top" id="home">
+<div class="container">
+  <a class="navbar-brand d-flex align-items-center gap-2" href="#home" style="text-decoration:none;">
+    <img src="https://i.imgur.com/placeholder.png" id="navLogo" class="navbar-logo-img" alt="SMIT Logo"
+      onerror="this.style.display='none';document.getElementById('fallbackLogo').style.display='flex'">
+    <div id="fallbackLogo" style="display:flex;width:48px;height:48px;background:var(--green);color:#fff;border-radius:50%;align-items:center;justify-content:center;font-size:22px;font-weight:bold;">+</div>
+    <div>
+      <span>Smit Medical Center</span>
+      <small>Compassionate Care | Medical Excellence</small>
+    </div>
+  </a>
+  <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="nav">
+    <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+      <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+      <li class="nav-item"><a class="nav-link" href="#doctors">Doctors</a></li>
+      <li class="nav-item"><a class="nav-link" href="#hospital">Hospital</a></li>
+      <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      <li class="nav-item ms-lg-2">
+        <button class="nav-link btn-book" onclick="openBookModal()">Book Appointment</button>
+      </li>
+    </ul>
+  </div>
+</div>
+</nav>
+
+<!-- HERO CAROUSEL -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://img.freepik.com/premium-photo/exterior-shot-hospital-building-representing-healthcare-facilities_933496-11211.jpg?w=2000">
+      <div class="carousel-caption d-none d-md-block">
+        <h2 class="fw-bold">Welcome to Smit Medical Center</h2>
+        <p>Trusted Doctors • Modern Facilities • 24/7 Care</p>
+        <button class="btn btn-success btn-lg mt-3 px-4" onclick="openBookModal()">Book Appointment</button>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://img.freepik.com/premium-photo/exterior-shot-hospital-building-representing-healthcare-facilities_933496-11213.jpg?w=2000">
+      <div class="carousel-caption d-none d-md-block">
+        <h2 class="fw-bold">Advanced Healthcare Services</h2>
+        <p>Professional Care with Compassion</p>
+        <button class="btn btn-success btn-lg mt-3 px-4" onclick="openBookModal()">Book Appointment</button>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.rBwmFUf0T2LlvMSWFbpp_QHaD7?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3">
+      <div class="carousel-caption d-none d-md-block">
+        <h2 class="fw-bold">Quality Healthcare For Everyone</h2>
+        <p>Compassionate & Experienced Medical Team</p>
+        <button class="btn btn-success btn-lg mt-3 px-4" onclick="openBookModal()">Book Appointment</button>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+  </div>
+</div>
+
+<!-- INFO CARDS -->
+<div class="container my-5" id="about">
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card info-card text-center p-4 h-100">
+      <i class="fas fa-clock fa-3x text-success mb-3"></i>
+      <h4 class="fw-bold">Clinic Timings</h4>
+      <p>Mon – Sat</p>
+      <p class="fw-semibold">9:00 AM – 10:00 PM</p>
+      <p class="text-muted">Sunday Emergency</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card info-card text-center p-4 h-100">
+      <i class="fas fa-ambulance fa-3x text-success mb-3"></i>
+      <h4 class="fw-bold">Emergency</h4>
+      <p>24 / 7 Available</p>
+      <h5 class="text-success">Ambulance: 100</h5>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card info-card text-center p-4 h-100">
+      <i class="fas fa-hospital fa-3x text-success mb-3"></i>
+      <h4 class="fw-bold">Services</h4>
+      <p>OPD</p><p>Laboratory</p><p>Pharmacy</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- HOSPITALS -->
+<div class="container my-5" id="hospital">
+  <h2 class="section-title text-center mb-2">Our Partner Hospitals</h2>
+  <p class="text-center text-muted mb-5">World-class facilities for your care in Karachi</p>
+  <div class="row g-4">
+
+    <!-- Patel Hospital -->
+    <div class="col-md-6">
+      <div class="card hospital-card h-100">
+        <div class="position-relative">
+          <img src="https://img.freepik.com/premium-photo/exterior-shot-hospital-building-representing-healthcare-facilities_933496-11211.jpg?w=900" alt="Patel Hospital">
+          <span class="hospital-badge"><i class="fas fa-star me-1"></i>Featured</span>
+        </div>
+        <div class="card-body p-4">
+          <h4 class="fw-bold mb-1" style="color:var(--navy);font-family:'Playfair Display',serif;">Patel Hospital</h4>
+          <p class="text-muted small mb-3">پٹیل ہسپتال &nbsp;|&nbsp; ⭐ 3.3 (907 reviews)</p>
+          <div class="hospital-info-row"><i class="fas fa-location-dot"></i> ST-18, Block 4 Gulshan-e-Iqbal, Karachi 75300</div>
+          <div class="hospital-info-row"><i class="fas fa-phone"></i> +92 21 111 174 174</div>
+          <div class="hospital-info-row"><i class="fas fa-clock"></i> Open 24 Hours</div>
+          <div class="hospital-info-row"><i class="fas fa-globe"></i> patel-hospital.org.pk</div>
+          <div class="d-flex gap-2 mt-4">
+            <a href="tel:+922111174174" class="btn btn-success flex-fill rounded-pill"><i class="fas fa-phone me-2"></i>Call Now</a>
+            <a href="https://patel-hospital.org.pk" target="_blank" class="btn btn-outline-success flex-fill rounded-pill"><i class="fas fa-globe me-2"></i>Website</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dow University -->
+    <div class="col-md-6">
+      <div class="card hospital-card h-100">
+        <div class="position-relative">
+          <img src="https://img.freepik.com/premium-photo/exterior-shot-hospital-building-representing-healthcare-facilities_933496-11213.jpg?w=900" alt="Dow University Hospital">
+          <span class="hospital-badge" style="background:linear-gradient(135deg,#0d6efd,#20c997)"><i class="fas fa-university me-1"></i>University</span>
+        </div>
+        <div class="card-body p-4">
+          <h4 class="fw-bold mb-1" style="color:var(--navy);font-family:'Playfair Display',serif;">Dow University Ojha Campus</h4>
+          <p class="text-muted small mb-3">ڈاؤ یونیورسٹی اوجھا کیمپس &nbsp;|&nbsp; ⭐ 4.1 (960 reviews)</p>
+          <div class="hospital-info-row"><i class="fas fa-location-dot"></i> Gulzar-e-Hijri, Gulshan-e-Iqbal, Karachi</div>
+          <div class="hospital-info-row"><i class="fas fa-phone"></i> +92 21 38771111</div>
+          <div class="hospital-info-row"><i class="fas fa-clock"></i> Open 24 Hours</div>
+          <div class="hospital-info-row"><i class="fas fa-globe"></i> duhs.edu.pk</div>
+          <div class="d-flex gap-2 mt-4">
+            <a href="tel:+922138771111" class="btn btn-primary flex-fill rounded-pill"><i class="fas fa-phone me-2"></i>Call Now</a>
+            <a href="https://duhs.edu.pk" target="_blank" class="btn btn-outline-primary flex-fill rounded-pill"><i class="fas fa-globe me-2"></i>Website</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCTORS -->
+<div class="container my-5" id="doctors">
+<h2 class="section-title text-center mb-5">Our Doctors</h2>
+<div class="row g-4">
+
+  <div class="col-md-4">
+    <div class="card doctor-card h-100">
+      <div class="doctor-img">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/026/375/249/small/ai-generative-portrait-of-confident-male-doctor-in-white-coat-and-stethoscope-standing-with-arms-crossed-and-looking-at-camera-photo.jpg">
+        <div class="doctor-overlay">
+          <h4>Dr. Musharib Ramzan</h4><p>Senior Cardiologist</p>
+          <p>15+ Years Experience</p><p>5 PM – 9 PM</p><p>0301-1112223</p>
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <h5 class="fw-bold">Dr. Musharib Ramzan</h5>
+        <p class="text-success mb-0">Senior Cardiologist</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card doctor-card h-100">
+      <div class="doctor-img">
+        <img src="https://www.summusglobal.com/wp-content/uploads/2023/01/GettyImages-1346124900-scaled.jpg">
+        <div class="doctor-overlay">
+          <h4>Dr. Bilal Ahmed Khan</h4><p>Orthopedic Surgeon</p>
+          <p>Bone & Joint Specialist</p><p>6 PM – 10 PM</p><p>0302-3334445</p>
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <h5 class="fw-bold">Dr. Bilal Ahmed Khan</h5>
+        <p class="text-success mb-0">Orthopedic Surgeon</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card doctor-card h-100">
+      <div class="doctor-img">
+        <img src="https://wallpapers.com/images/hd/mbbs-three-doctors-l6mpzm2z8xq90u8e.jpg">
+        <div class="doctor-overlay">
+          <h4>Dr. Zainab Fatima</h4><p>General Physician</p>
+          <p>Family Health Expert</p><p>4 PM – 8 PM</p><p>0303-5556677</p>
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <h5 class="fw-bold">Dr. Zainab Fatima</h5>
+        <p class="text-success mb-0">General Physician</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- CTA -->
+<div class="cta text-white text-center py-5">
+  <h2 class="fw-bold mb-3" style="font-family:'Playfair Display',serif;">Book Your Appointment Today</h2>
+  <p>Trusted Doctors • Modern Facilities • Quality Care</p>
+  <button class="btn btn-light btn-lg fw-bold px-5 mt-2" onclick="openBookModal()">Book Appointment</button>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-success text-white pt-5" id="contact">
+<div class="container">
+<div class="row g-4">
+
+  <div class="col-lg-4 col-md-6">
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <div style="width:42px;height:42px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;">+</div>
+      <h4 class="fw-bold mb-0" style="font-family:'Playfair Display',serif;">Smit Medical Center</h4>
+    </div>
+    <p class="text-white-50">Professional healthcare with modern facilities and experienced doctors.</p>
+    <p><i class="fas fa-location-dot me-2"></i> Main Road, Karachi, Pakistan</p>
+    <p><i class="fas fa-envelope me-2"></i> musharibramzan950@gmail.com</p>
+  </div>
+
+  <div class="col-lg-2 col-md-6">
+    <h5 class="fw-bold mb-3">Quick Links</h5>
+    <ul class="list-unstyled">
+      <li class="mb-1"><a class="footer-link" href="#home">Home</a></li>
+      <li class="mb-1"><a class="footer-link" href="#about">About</a></li>
+      <li class="mb-1"><a class="footer-link" href="#doctors">Doctors</a></li>
+      <li class="mb-1"><a class="footer-link" href="#hospital">Hospital</a></li>
+      <li class="mb-1"><a class="footer-link" href="#contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <div class="col-lg-3 col-md-6">
+    <h5 class="fw-bold mb-3">Clinic Timings</h5>
+    <p class="mb-1">Mon – Sat</p>
+    <p class="fw-semibold">9:00 AM – 10:00 PM</p>
+    <p>Sunday Emergency</p>
+    <hr class="border-light my-3">
+    <h6 class="fw-bold mb-2">Book Appointment Here</h6>
+    <div class="d-flex flex-column gap-2">
+      <a href="https://patel-hospital.org.pk" target="_blank" class="btn btn-light btn-sm rounded-pill text-success fw-semibold">
+        <i class="fas fa-hospital me-1"></i> Patel Hospital
+      </a>
+      <a href="https://duhs.edu.pk" target="_blank" class="btn btn-light btn-sm rounded-pill text-primary fw-semibold">
+        <i class="fas fa-university me-1"></i> Dow University
+      </a>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-md-6">
+    <h5 class="fw-bold mb-3">Emergency</h5>
+    <h4 class="fw-bold text-warning">Ambulance: 100</h4>
+    <p class="mt-2 mb-1 small">Patel: <strong>+92 21 111 174 174</strong></p>
+    <p class="mb-3 small">Dow: <strong>+92 21 38771111</strong></p>
+    <div class="d-flex gap-2 mt-2 flex-wrap">
+      <a href="mailto:musharibramzan950@gmail.com" class="social-btn" title="Gmail"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/musharib-ramzan-6609a739b" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://linktr.ee/Musharib_" target="_blank" class="social-btn" title="Linktree"><i class="fas fa-link"></i></a>
+      <a href="https://github.com/musharibramzan950-bit" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+  </div>
+
+</div>
+<hr class="border-light my-4">
+<div class="row pb-3">
+  <div class="col-md-6 text-center text-md-start"><p class="mb-0">© 2026 Smit Medical Center</p></div>
+  <div class="col-md-6 text-center text-md-end"><p class="mb-0">Your Health Our Priority</p></div>
+</div>
+</div>
+</footer>
+
+<!-- BOOK APPOINTMENT MODAL -->
+<div class="book-modal-overlay" id="bookModal" onclick="handleOverlayClick(event)">
+  <div class="book-modal">
+    <button class="close-modal" onclick="closeBookModal()">×</button>
+    <h4>Book an Appointment</h4>
+    <p class="subtitle">Choose your preferred hospital to book or call directly</p>
+
+    <a href="https://patel-hospital.org.pk" target="_blank" class="hosp-option">
+      <div class="d-flex align-items-center gap-3">
+        <div class="hosp-icon"><i class="fas fa-hospital"></i></div>
+        <div>
+          <div class="hosp-name">Patel Hospital</div>
+          <div class="hosp-num"><i class="fas fa-phone me-1"></i>+92 21 111 174 174</div>
+          <div class="hosp-web">patel-hospital.org.pk</div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://duhs.edu.pk" target="_blank" class="hosp-option">
+      <div class="d-flex align-items-center gap-3">
+        <div class="hosp-icon" style="background:linear-gradient(135deg,#0d6efd,#20c997)"><i class="fas fa-university"></i></div>
+        <div>
+          <div class="hosp-name">Dow University Ojha Campus</div>
+          <div class="hosp-num" style="color:#0d6efd"><i class="fas fa-phone me-1"></i>+92 21 38771111</div>
+          <div class="hosp-web">duhs.edu.pk</div>
+        </div>
+      </div>
+    </a>
+
+    <p class="text-center text-muted mt-3 mb-0" style="font-size:.8rem;">Click a hospital to visit their website & book online</p>
+  </div>
+</div>
+
+<!-- FLOATING MINI CARD -->
+<div id="miniCard">
+  <div style="font-size:14px;font-weight:700;animation:moveText 2.5s infinite alternate;">🩺 Medical Help</div>
+  <div style="font-size:11px;opacity:.9;margin-top:6px;line-height:1.3;">24/7 doctors & emergency care</div>
+  <button class="btn btn-light btn-sm mt-2" style="padding:2px 12px;font-size:11px;border-radius:20px;" onclick="openBookModal()">Book Now</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function openBookModal(){document.getElementById('bookModal').classList.add('active');}
+function closeBookModal(){document.getElementById('bookModal').classList.remove('active');}
+function handleOverlayClick(e){if(e.target===document.getElementById('bookModal'))closeBookModal();}
+
+const card=document.getElementById("miniCard");
+let drag=false,offX=0,offY=0;
+card.addEventListener("mousedown",e=>{drag=true;card.style.cursor="grabbing";offX=e.clientX-card.offsetLeft;offY=e.clientY-card.offsetTop;});
+document.addEventListener("mousemove",e=>{if(!drag)return;card.style.left=(e.clientX-offX)+"px";card.style.top=(e.clientY-offY)+"px";card.style.right="auto";card.style.bottom="auto";});
+document.addEventListener("mouseup",()=>{drag=false;card.style.cursor="grab";});
+</script>
+</body>
+</html>
